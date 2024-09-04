@@ -36,7 +36,6 @@ class Program
         var service = new RebateService(new RebateDataStore(), new ProductDataStore());
         var result = service.Calculate(request);
         
-        Console.WriteLine(result);
         if (result.Success) 
         {
             Console.WriteLine($"Success! Rebate calculated as {result.RebateAmount} is stored.");
