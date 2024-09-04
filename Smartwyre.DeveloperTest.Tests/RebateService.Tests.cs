@@ -82,7 +82,7 @@ public class RebateServiceTests
     [Fact]
     public void Test_Zero_Calculation_For_RebateAmounts_When_Unsupported()
     {
-        var actualCash = _cashCalculator.GetRebateAmount(
+        _cashCalculator.SetRebateAmount(
             new Rebate { 
                 Amount = 100.00m, Percentage = 0.10m 
             }, 
@@ -91,7 +91,7 @@ public class RebateServiceTests
             }, 
             100m
         );
-        var actualRate = _rateCalculator.GetRebateAmount(
+        _rateCalculator.SetRebateAmount(
             new Rebate { 
                 Amount = 100.00m, Percentage = 0.10m 
             }, 
@@ -100,7 +100,7 @@ public class RebateServiceTests
             }, 
             100m
         );
-        var actualUom = _uomCalculator.GetRebateAmount(
+        _uomCalculator.SetRebateAmount(
             new Rebate { 
                 Amount = 100.00m, Percentage = 0.10m 
             }, 
@@ -110,16 +110,16 @@ public class RebateServiceTests
             100m
         );
 
-        Assert.Equal(0m, actualCash);
-        Assert.Equal(0m, actualRate);
-        Assert.Equal(0m, actualUom);
+        Assert.Equal(0m, _cashCalculator.RebateAmount);
+        Assert.Equal(0m, _rateCalculator.RebateAmount);
+        Assert.Equal(0m, _uomCalculator.RebateAmount);
 
     }
 
     [Fact]
     public void Test_Correct_Calculation_For_FixedCashAmount()
     {
-        var rebateAmount = _cashCalculator.GetRebateAmount(
+        _cashCalculator.SetRebateAmount(
             new Rebate { 
                 Amount = 100.00m, Percentage = 0.10m 
             }, 
@@ -128,14 +128,14 @@ public class RebateServiceTests
             }, 
             100m
         );
-        Assert.Equal(100m, rebateAmount);
+        Assert.Equal(100m, _cashCalculator.RebateAmount);
         Assert.True(_cashCalculator.Success);
     }
 
     [Fact]
     public void Test_Correct_Calculation_For_FixedRateRebate()
     {
-        var rebateAmount = _rateCalculator.GetRebateAmount(
+        _rateCalculator.SetRebateAmount(
             new Rebate { 
                 Amount = 100.00m, Percentage = 0.50m 
             }, 
@@ -145,7 +145,7 @@ public class RebateServiceTests
             }, 
             100m
         );
-        Assert.Equal(500m, rebateAmount);
+        Assert.Equal(500m, _rateCalculator.RebateAmount);
         Assert.True(_rateCalculator.Success);
 
     }
@@ -153,7 +153,7 @@ public class RebateServiceTests
     [Fact]
     public void Test_Correct_Calculation_For_AmountPerUom()
     {
-        var rebateAmount = _uomCalculator.GetRebateAmount(
+        _uomCalculator.SetRebateAmount(
             new Rebate { 
                 Amount = 100.00m, Percentage = 0.50m 
             }, 
@@ -163,14 +163,14 @@ public class RebateServiceTests
             }, 
             100m
         );
-        Assert.Equal(10000m, rebateAmount);
+        Assert.Equal(10000m, _uomCalculator.RebateAmount);
         Assert.True(_uomCalculator.Success);
     }
 
     [Fact]
     public void Test_Zero_Calculation_When_No_Volume_Given_For_FixedRate_And_UOM()
     {
-        var rateAmount = _rateCalculator.GetRebateAmount(
+        _rateCalculator.SetRebateAmount(
             new Rebate { 
                 Amount = 100.00m, Percentage = 0.50m 
             }, 
@@ -179,7 +179,7 @@ public class RebateServiceTests
                 Price = 10m
             }
         );
-        var uomAmount = _uomCalculator.GetRebateAmount(
+        _uomCalculator.SetRebateAmount(
             new Rebate { 
                 Amount = 100.00m, Percentage = 0.50m 
             }, 
@@ -189,8 +189,8 @@ public class RebateServiceTests
             }
         );
 
-        Assert.Equal(0m, rateAmount);
-        Assert.Equal(0m, uomAmount);
+        Assert.Equal(0m, _rateCalculator.RebateAmount);
+        Assert.Equal(0m, _uomCalculator.RebateAmount);
         Assert.False(_uomCalculator.Success);
         Assert.False(_rateCalculator.Success);
 

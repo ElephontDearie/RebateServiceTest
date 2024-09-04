@@ -4,5 +4,11 @@
     <OutputType>Exe</OutputType>
 	<TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Smartwyre.DeveloperTest\Smartwyre.DeveloperTest.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+  </ItemGroup>
 
 </Project>

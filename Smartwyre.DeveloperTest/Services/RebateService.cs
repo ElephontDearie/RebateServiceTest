@@ -28,11 +28,11 @@ public class RebateService : IRebateService
         }
 
         var rebateAmountCalculator = _factory.GetRebateResultType(rebate.Incentive);
-        var rebateAmount = rebateAmountCalculator.GetRebateAmount(rebate, product, request.Volume);
+        rebateAmountCalculator.SetRebateAmount(rebate, product, request.Volume);
 
         if (rebateAmountCalculator.Success)
         {
-            _rebateDataStore.StoreCalculationResult(rebate, rebateAmount);
+            _rebateDataStore.StoreCalculationResult(rebate, rebateAmountCalculator.RebateAmount);
         }
 
         return rebateAmountCalculator;

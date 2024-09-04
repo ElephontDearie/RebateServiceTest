@@ -6,19 +6,17 @@ namespace Smartwyre.DeveloperTest.Types;
 public class CalculateRebateResult
 {
     public bool Success { get; set; }
+    public decimal RebateAmount { get; set; }
 
-
-    public decimal GetRebateAmount(Rebate rebate, Product product, decimal volume = 0m) 
+    public void SetRebateAmount(Rebate rebate, Product product, decimal volume = 0m) 
     {
         // Add additional checks for general validity of rebate && product here before calculating for specific incentive types
         if (!Valid(volume)) {
             this.Success = false;
-            return 0m;
+            this.RebateAmount = 0m;
         }
 
-        var amount = Calculate(rebate, product, volume);
-        return amount;
-
+        this.RebateAmount = Calculate(rebate, product, volume);
     }
     public virtual decimal Calculate(Rebate rebate, Product product, decimal volume = 0m) 
     {
